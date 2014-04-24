@@ -30,8 +30,8 @@ const string OUTFILENAME = "outtracks.txt";
 
 int main()
 {
-	string lastLine = "";
 	string currentLine = "";
+	string lastLine = "";
 	int track1Count = 0;
 	int track2Count = 0;
 	int missingTracks = 0;
@@ -63,20 +63,22 @@ int main()
 	}
 	else
 	{
+		// Loop until the end of the file.
 		while ( !trackFile.eof() )
 		{
 			getline( trackFile, currentLine );
 			//trackFile >> currentLine;
 			// Scan currentLine for " - 02 - ".
 			currentLine.find( " - 02 - " );
-			// If found...
+			// If we find track 2
 			if ( currentLine.find( " - 02 - " ) != string::npos )
 			{
 				track2Count++;
 				//cout << "Found track 2" << endl;
-				// Scan lastLine for " - 01 - ".
+				// Scan lastLine for " - 01 - ", and if missing...
 				if (lastLine.find( " - 01 - " ) != string::npos)
 				{
+					// Increment track1Count to show a missing first track.
 					track1Count++;
 				}
 				else
