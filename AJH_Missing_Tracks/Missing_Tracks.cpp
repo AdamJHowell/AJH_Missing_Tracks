@@ -30,31 +30,32 @@ if found
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <time.h>
 
 
 using namespace std;
 
 
-const string INFILENAME = "tracks.txt";		// Input filename.
-const string OUTFILENAME = "outtracks.txt";	// Output filename.
-
-
 int main()
 {
+	string inFilename = "tracks.txt";		// Input filename.
+	string outFilename = "outtracks.txt";	// Output filename.  This file will be overwritten without confirmation!
 	string currentLine = "";				// Current line contents.
 	string lastLine = "";				// Previous line contents.
 	int track1Count = 0;				// Counter for how many times a track 1 was found.
 	int track2Count = 0;				// Counter for how many times a track 2 was found.
 	int missingTracks = 0;				// Counter for how many tracks are missing.
+	clock_t startClock;					// A temporary variable to hold the current clock time.
+	clock_t endClock;					// A temporary variable to hold the current clock time.
 
 	// Open a file stream based on the output filename.  This file will be overwritten without confirmation!
-	ofstream outFile ( OUTFILENAME );
+	ofstream outFile ( outFilename );
 
 	// If the file stream creation failed...
 	if ( outFile.fail() )
 	{
 		// Announce that the file did not open properly.
-		cout << "\nUnable to open the " << OUTFILENAME << " file." << endl;
+		cout << "\nUnable to open the output file: " << outFilename << endl;
 		// Pause so the user can read the error message on the console.
 		system( "PAUSE" );
 		// Exit the program with a return value of -1.
@@ -62,13 +63,13 @@ int main()
 	}
 
 	// Open a file stream based on the input filename.
-	ifstream trackFile ( INFILENAME );
+	ifstream trackFile ( inFilename );
 
 	// If the file stream creation failed...
 	if ( trackFile.fail() )
 	{
 		// Announce that the file did not open properly.
-		cout << "\nUnable to open the " << INFILENAME << " file.\nPlease ensure it is in the same directory as this executable." << endl;
+		cout << "\nUnable to open the input file: " << inFilename << " \nPlease ensure it is in the same directory as this executable." << endl;
 		// Pause so the user can read the error message on the console.
 		system( "PAUSE" );
 		// Exit the program with a return value of -1.
@@ -76,6 +77,10 @@ int main()
 	}
 	else
 	{
+		cout << "Searching the input file: " << inFilename << endl;
+		// Get the starting tick.
+		startClock = clock();
+
 		// Loop until the end of the file.
 		while ( !trackFile.eof() )
 		{
@@ -112,14 +117,25 @@ int main()
 			}
 		}
 	}
+	// Get the ending tick.
+	endClock = clock();
+
 	// Close the file handles.
 	trackFile.close();
 	outFile.close();
 
 	// Display the results.
+	if ( endClock / CLK_TCK )
+	{
+		cout << "Scan completed in " << endClock / CLK_TCK << " second (" << endClock << " ticks)." << endl;
+	}
+	else
+	{
+		cout << "Scan completed in " << endClock / CLK_TCK << " seconds (" << endClock << " ticks)." << endl;
+	}
 	cout << "Found " << track1Count << " first tracks" << endl;
 	cout << "Found " << track2Count << " second tracks" << endl;
-	cout << missingTracks << " possible albums with missing first tracks written to " << OUTFILENAME << endl;
+	cout << missingTracks << " possible albums with missing first tracks written to " << outFilename << endl;
 
 	// Pause so we can see the output on the console.
 	system( "PAUSE" );
