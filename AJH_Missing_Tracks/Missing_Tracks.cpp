@@ -17,11 +17,11 @@ scan currentLine for " - 02 - "
 if found
 	cout << "Found track 2 in first line"
 else
-	lastLine = currentLine
+	prevLine = currentLine
 read line from inFileObject into current line
 scan currentLine for " - 02 - "
 if found
-	scan lastLine for " - 01 - "
+	scan prevLine for " - 01 - "
 	if !found
 		cout << "Found track 2 with no track 1", outFileObject << currentLine
 */
@@ -41,7 +41,7 @@ int main()
 	string inFilename = "tracks.txt";		// Input filename.
 	string outFilename = "outtracks.txt";	// Output filename.  This file will be overwritten without confirmation!
 	string currentLine = "";				// Current line contents.
-	string lastLine = "";				// Previous line contents.
+	string prevLine = "";				// Previous line contents.
 	int track1Count = 0;				// Counter for how many times a track 1 was found.
 	int track2Count = 0;				// Counter for how many times a track 2 was found.
 	int missingTracks = 0;				// Counter for how many tracks are missing.
@@ -94,8 +94,8 @@ int main()
 				track2Count++;
 				// Test code.
 				//cout << "Found track 2" << endl;
-				// Scan lastLine for " - 01 - ", and if missing...
-				if ( lastLine.find( " - 01 - " ) != string::npos )
+				// Scan prevLine for " - 01 - ", and if missing...
+				if ( prevLine.find( " - 01 - " ) != string::npos )
 				{
 					// Increment track1Count to show we located a track 1.
 					track1Count++;
@@ -110,8 +110,8 @@ int main()
 			}
 			else
 			{
-				// Prepare to check the next line by loading currentLine into lastLine.
-				lastLine = currentLine;
+				// Prepare to check the next line by loading currentLine into prevLine.
+				prevLine = currentLine;
 				// Restart this while loop.
 				continue;
 			}
