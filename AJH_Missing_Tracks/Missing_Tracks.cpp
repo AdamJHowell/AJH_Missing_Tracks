@@ -4,26 +4,22 @@ Author: Adam Howell
 
 
 This program is designed to read in a text file containing a directory structure and locate missing files.
-It is currently hard-coded to search for track 1.
 My filename format is as follows:
 	<Artist> - <Album> - <Track#> - <Title>
 When the program encounters track 2, it looks back one line (stored in a variable) for track 1.
 
 
 Pseudo-code:
-
-read line into currentLine
-scan currentLine for " - 02 - "
-if found
-	cout << "Found track 2 in first line"
-else
-	prevLine = currentLine
-read line from inFileObject into current line
-scan currentLine for " - 02 - "
-if found
-	scan prevLine for " - 01 - "
-	if !found
-		cout << "Found track 2 with no track 1", outFileObject << currentLine
+	scan currentLine for track2String
+	if found
+		scan prevLine for the track1String
+		if found
+			restart the loop
+		else
+			write currentLine to the output file
+	else
+		prevLine = currentLine
+		restart the loop
 */
 
 
@@ -40,6 +36,8 @@ int main()
 {
 	string inFilename = "tracks.txt";		// Input filename.
 	string outFilename = "outtracks.txt";	// Output filename.  This file will be overwritten without confirmation!
+	string track1String = " - 01 - ";		// The text we suspect may be missing.
+	string track2String = " - 02 - ";		// The text we search for to know we have passed track 1.
 	string currentLine = "";				// Current line contents.
 	string prevLine = "";				// Previous line contents.
 	int track1Count = 0;				// Counter for how many times a track 1 was found.
@@ -87,15 +85,15 @@ int main()
 			getline( trackFile, currentLine );
 			//trackFile >> currentLine;	// This is how I initially tried loading a line from the input file to currentLine.
 			// Scan currentLine for " - 02 - ".
-			currentLine.find( " - 02 - " );
+			currentLine.find( track2String );
 			// If we find track 2...
-			if ( currentLine.find( " - 02 - " ) != string::npos )
+			if ( currentLine.find( track2String ) != string::npos )
 			{
 				track2Count++;
 				// Test code.
 				//cout << "Found track 2" << endl;
 				// Scan prevLine for " - 01 - ", and if missing...
-				if ( prevLine.find( " - 01 - " ) != string::npos )
+				if ( prevLine.find( track1String ) != string::npos )
 				{
 					// Increment track1Count to show we located a track 1.
 					track1Count++;
