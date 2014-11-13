@@ -27,9 +27,11 @@ Pseudo-code:
 #include <fstream>
 #include <string>
 #include <time.h>
+#include <boost/filesystem.hpp>
 
 
 using namespace std;
+using namespace boost::filesystem;
 
 
 int main()
@@ -45,6 +47,30 @@ int main()
 	int missingTracks = 0;				// Counter for how many tracks are missing.
 	clock_t startClock;					// A temporary variable to hold the current clock time.
 	clock_t endClock;					// A temporary variable to hold the current clock time.
+
+	boost::filesystem::path new_full_path( boost::filesystem::current_path() );
+	std::cout << "Current path is:\n" << new_full_path << std::endl;
+/*
+	// list all files in current directory.
+	// You could put any file path in here, e.g. "/home/me/mwah" to list that directory
+	path p (".");
+ 
+	directory_iterator end_itr;
+ 
+	// cycle through the directory
+	for (directory_iterator itr(p); itr != end_itr; ++itr)
+	{
+		// If it's not a directory, list it. If you want to list directories too, just remove this check.
+		if (is_regular_file(itr->path()))
+		{
+			// assign current file name to current_file and echo it out to the console.
+			string current_file = itr->path().string();
+			cout << current_file << endl;
+		}
+	}
+*/
+	// Pause so we can see the output on the console.
+	system( "PAUSE" );
 
 	// Open a file stream based on the output filename.  This file will be overwritten without confirmation!
 	ofstream outFile ( outFilename );
