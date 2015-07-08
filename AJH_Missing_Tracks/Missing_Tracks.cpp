@@ -49,7 +49,7 @@ int main()
 	clock_t endClock;					// A temporary variable to hold the current clock time.
 
 	boost::filesystem::path new_full_path( boost::filesystem::current_path() );
-	std::cout << "Current path is:\n" << new_full_path << std::endl;
+	cout << "Current path is:\n" << new_full_path << endl;
 /*
 	// list all files in current directory.
 	// You could put any file path in here, e.g. "/home/me/mwah" to list that directory
